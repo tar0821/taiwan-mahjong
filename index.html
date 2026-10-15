@@ -220,6 +220,38 @@ input{font:inherit}
 .waits .w1{display:flex;flex-direction:column;align-items:center;gap:3px}
 .waits em{font-style:normal;font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
 
+/* ---------- 動畫 ---------- */
+#app.scr-in > *:not(.ov){animation:scrIn .42s cubic-bezier(.2,.8,.2,1) both;animation-delay:var(--se,0ms)}
+@keyframes scrIn{from{opacity:0;transform:translateY(14px) scale(.985)}to{opacity:1;transform:none}}
+.hand.dealing .t{animation:dealIn .36s cubic-bezier(.2,.9,.25,1.15) both;animation-delay:calc(var(--ae,0ms) + var(--k,0) * 42ms)}
+@keyframes dealIn{from{opacity:0;transform:translateY(-70px) rotate(-8deg) scale(.7)}to{opacity:1;transform:none}}
+.hand.drawing .t.new{animation:drawIn .34s cubic-bezier(.2,.9,.3,1.2) both;animation-delay:var(--ad,0ms)}
+@keyframes drawIn{from{opacity:0;transform:translate(26px,-46px) rotate(10deg)}to{opacity:1;transform:none}}
+.felt.dropping .t.hl{animation:dropIn .4s cubic-bezier(.2,.9,.3,1.3) both;animation-delay:var(--dd,0ms)}
+@keyframes dropIn{from{opacity:0;transform:scale(1.9) translateY(-10px)}60%{opacity:1}to{transform:none}}
+.prompt.pin{animation:promptIn .3s cubic-bezier(.2,.9,.3,1.25) both;animation-delay:var(--pe,0ms)}
+@keyframes promptIn{from{opacity:0;transform:translateX(-50%) translateY(16px) scale(.9)}to{opacity:1;transform:translateX(-50%)}}
+.ov.enter{animation:ovIn .3s ease-out both;animation-delay:var(--ae,0ms)}
+.ov.enter .card{animation:cardIn .5s cubic-bezier(.2,.9,.25,1.1) both;animation-delay:calc(var(--ae,0ms) + 80ms)}
+.ov.enter .items > *,.ov.enter .pays > *{animation:rowIn .35s ease-out both;animation-delay:calc(var(--ae,0ms) + 300ms)}
+@keyframes ovIn{from{opacity:0}to{opacity:1}}
+@keyframes cardIn{from{opacity:0;transform:translateY(40px) scale(.94)}to{opacity:1;transform:none}}
+@keyframes rowIn{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:none}}
+.hud.on,.dock.on .statusbar{animation:turnGlow 1.6s ease-in-out infinite;animation-delay:var(--pp,0ms)}
+@keyframes turnGlow{0%,100%{box-shadow:0 0 0 0 rgba(216,178,90,.0),0 0 10px rgba(216,178,90,.25)}50%{box-shadow:0 0 0 2px rgba(216,178,90,.35),0 0 18px rgba(216,178,90,.55)}}
+.btn,.ab{transition:transform .08s ease,filter .15s ease}
+.btn:not(:disabled):active,.ab:not(:disabled):active{transform:scale(.95)}
+.btn:not(:disabled):hover,.ab:not(:disabled):hover{filter:brightness(1.08)}
+@media (hover:hover){.hand .t:not(.dim):not(.sel):hover{transform:translateY(-4px)}}
+.btn.ready{background:linear-gradient(180deg,#5fd38a,#2e9e5b);color:#06210f;font-size:17px;padding:11px 30px;box-shadow:0 0 14px rgba(80,210,130,.5)}
+.pays{grid-template-columns:1fr auto auto auto!important}
+.pays .rdy{font-size:12px;color:var(--muted);text-align:right}
+.pays .rdy.ok{color:#8fe0a8;font-weight:700}
+@media (prefers-reduced-motion:reduce){#app.scr-in > *,.hand.dealing .t,.hand.drawing .t.new,.felt.dropping .t.hl,.prompt.pin,.ov.enter,.ov.enter .card,.ov.enter .items > *,.ov.enter .pays > *,.hud.on,.dock.on .statusbar{animation:none}}
+
+/* deal stagger */
+.hand .t:nth-child(1){--k:0}.hand .t:nth-child(2){--k:1}.hand .t:nth-child(3){--k:2}.hand .t:nth-child(4){--k:3}.hand .t:nth-child(5){--k:4}.hand .t:nth-child(6){--k:5}.hand .t:nth-child(7){--k:6}.hand .t:nth-child(8){--k:7}.hand .t:nth-child(9){--k:8}.hand .t:nth-child(10){--k:9}.hand .t:nth-child(11){--k:10}.hand .t:nth-child(12){--k:11}.hand .t:nth-child(13){--k:12}.hand .t:nth-child(14){--k:13}.hand .t:nth-child(15){--k:14}.hand .t:nth-child(16){--k:15}.hand .t:nth-child(17){--k:16}.hand .t:nth-child(18){--k:17}
+
 /* ---------- alarm clock countdown ---------- */
 .alarm{--c:clamp(34px,calc(var(--AH)*.11),54px);position:absolute;z-index:4;width:var(--c);height:var(--c);display:block;pointer-events:none;animation:ring 1s ease-in-out infinite}
 .alarm .face{position:absolute;inset:12% 6% 0;border-radius:50%;background:radial-gradient(circle at 40% 35%,#ffffff,#dfe9ff 55%,#a9bff0);
@@ -248,7 +280,7 @@ input{font:inherit}
 .die i.on{background:#1b1b1b;box-shadow:inset 0 1px 1px rgba(255,255,255,.3)}
 .die i.on.red{background:#c62a2a}
 .dice.idle .die{opacity:.55}
-.dice.rolling .die{animation:tumble .95s cubic-bezier(.2,.7,.3,1) both;animation-delay:calc(var(--i)*60ms)}
+.dice.rolling .die{animation:tumble .95s cubic-bezier(.2,.7,.3,1) both;animation-delay:calc(var(--i)*60ms + var(--dl,0ms))}
 @keyframes tumble{0%{transform:translate(-60px,-40px) rotate(-260deg) scale(.6);opacity:0}35%{transform:translate(18px,10px) rotate(140deg) scale(1.05);opacity:1}
   60%{transform:translate(-8px,-6px) rotate(-60deg)}80%{transform:translate(3px,2px) rotate(18deg)}100%{transform:none}}
 .dicesum{font-size:18px;font-variant-numeric:tabular-nums;color:var(--text)}
@@ -543,7 +575,7 @@ function dealHand(G) {
 function exhaust(G) {
   G.ph = 'end'; G.claim = null;
   G.result = { w: -1, fr: -1, t: -1, sd: 0, it: [], tai: 0, dt: 0, pay: [0, 0, 0, 0] };
-  G.lg = '流局';
+  G.lg = '流局'; G.ready = [0, 0, 0, 0]; G.endAt = Date.now();
 }
 
 function drawTile(G, s, back) {
@@ -645,7 +677,7 @@ function finishWin(G, w, t, sd, fr, ctx) {
   }
   for (const q of G.active) G.seats[q].score += pay[q];
   G.result = { w, fr: sd ? -1 : fr, t, sd: sd ? 1 : 0, it: sc.it, tai: sc.tai, dt, pay };
-  G.ph = 'end'; G.claim = null; G.drawn = false;
+  G.ph = 'end'; G.claim = null; G.drawn = false; G.ready = [0, 0, 0, 0]; G.endAt = Date.now();
   G.lg = sd ? `${seatName(G, w)} 自摸 ${tileName(t)}` : `${seatName(G, w)} 胡 ${seatName(G, fr)} 的 ${tileName(t)}`;
 }
 
@@ -789,7 +821,7 @@ function autoAct(G, s) { // 逾時：打出剛摸的牌
 /* ---------- 公開狀態（放進 presence） ---------- */
 function pubState(G) {
   return {
-    ph: G.ph, md: G.mode, fl: G.fl === false ? 0 : 1, b: G.B, p: G.P, dl: G.dealer, sk: G.streak, wd: G.wind, hn: G.handNo,
+    rd: G.ready || null, ea: G.endAt || 0, ph: G.ph, md: G.mode, fl: G.fl === false ? 0 : 1, b: G.B, p: G.P, dl: G.dealer, sk: G.streak, wd: G.wind, hn: G.handNo,
     wl: Math.max(0, G.wall.length - deadOf(G)), tn: G.turn, dr: G.drawn && G.lastDraw != null ? G.lastDraw : -1,
     ld: G.lastDisc ? [G.lastDisc.s, G.lastDisc.t] : null, kg: G.kong ? 1 : 0,
     S: G.seats.map((x, i) => x ? {
@@ -814,7 +846,13 @@ let cid = LS.get('mj_cid'); if (!cid) { cid = Math.random().toString(36).slice(2
 let nick = LS.get('mj_nick') || '';
 let role = null;           // 'h' 房主 / 'g' 玩家 / 'solo' 單機
 let code = null, G = null, pub = null, seq = 0, sel = null, tingSel = false;
-const fx = { dk: '', dAt: 0, lg: null, banner: null, bAt: 0, diceKey: '', diceAt: 0 };
+const fx = { dk: '', dAt: 0, lg: null, banner: null, bAt: 0, diceKey: '', diceAt: 0, anims: {}, scr: '' };
+// 動畫計時：第一次看到某個 key 時開始計時，之後重畫時用負的 delay 接著播，不會一直重播
+function animT(k, dur) {
+  const now = Date.now(); let t = fx.anims[k];
+  if (t === undefined) { fx.anims[k] = t = now; const ks = Object.keys(fx.anims); if (ks.length > 300) for (const x of ks.slice(0, 150)) delete fx.anims[x]; }
+  const e = now - t; return e < dur ? e : -1;
+}
 const PIPS = { 1: [4], 2: [0, 8], 3: [0, 4, 8], 4: [0, 2, 6, 8], 5: [0, 2, 4, 6, 8], 6: [0, 2, 3, 5, 6, 8] };
 function dieHTML(v, i) {
   return `<span class="die" style="--i:${i}">${Array.from({ length: 9 }, (_, k) => `<i class="${PIPS[v].includes(k) ? (v === 1 || v === 4 ? 'on red' : 'on') : ''}"></i>`).join('')}</span>`;
@@ -1036,6 +1074,7 @@ function hostSync() {
 function pubX() {
   const st = pubState(G);
   st.S.forEach((x, i) => { if (x) x.o = (x.b || x.c === cid || online.has(x.c)) ? 1 : 0; });
+  st.hs = G.seats.findIndex(x => x && x.cid === cid); // 房主坐哪
   return st;
 }
 function commit() {
@@ -1047,6 +1086,7 @@ function applyAct(s, a) {
   const t = Number.isInteger(a.t) ? a.t : -1;
   switch (a.k) {
     case 'r': return rollDice(G, s);
+    case 'y': if (G.ph === 'end') { G.ready = G.ready || [0, 0, 0, 0]; G.ready[s] = 1; } return true;
     case 't': return declareTing(G, s, t);
     case 'd': return discard(G, s, t);
     case 'z': return selfWin(G, s);
@@ -1159,9 +1199,14 @@ function leave() {
 /* ---------- render ---------- */
 function render() {
   const app = $('#app');
-  if (!role) return renderHome(app);
-  if (role === 'g' && !pub) return renderWaitingHost(app);
-  if (pub.ph === 'lobby') return renderLobby(app);
+  const scr = !role ? 'home' : role === 'g' && !pub ? 'wait' : pub.ph === 'lobby' ? 'lobby' : 'table';
+  const e = animT('scr:' + scr + ':' + (code || ''), 420);
+  app.style.setProperty('--se', '-' + Math.max(0, e) + 'ms');
+  app.classList.toggle('scr-in', e >= 0);
+  if (e >= 0) setTimeout(() => { if (animT('scr:' + scr + ':' + (code || ''), 420) < 0) app.classList.remove('scr-in'); }, 440);
+  if (scr === 'home') return renderHome(app);
+  if (scr === 'wait') return renderWaitingHost(app);
+  if (scr === 'lobby') return renderLobby(app);
   renderTable(app);
 }
 
@@ -1359,12 +1404,16 @@ function renderTable(app) {
     const tt = (t, extra = '') => T(t, extra + (sel === t ? ' sel' : '') + (canPick && (!tingSel || myTingOk.includes(t)) ? (tingSel ? ' tingok' : '') : ' dim'));
     handHTML = main.map(t => tt(t)).join('') + (drawn != null ? tt(drawn, 'new') : '');
   }
+  const dealE = st.ph !== 'dice' && st.ph !== 'end' && !spectator ? animT('deal:' + st.hn + ':' + st.ea, 1400) : -1;
+  const drawE = st.ph === 'act' && st.tn === me && st.dr >= 0 && !ended ? animT('draw:' + st.hn + ':' + st.wl + ':' + st.dr, 380) : -1;
 
   const units = myHand.length + 0.5 + myMelds.reduce((a, m) => a + m.x.length, 0) * 0.8 + myMelds.length * 0.25 + dec(mx.f).length * 0.6;
   // 特效：打出的牌在桌心放大、吃碰胡的大字
   const now = Date.now();
   const dk = ld ? `${st.hn}|${ld[0]}|${dec(S[ld[0]].d).length}|${ld[1]}` : '';
   if (dk && dk !== fx.dk) { fx.dk = dk; fx.dAt = now; setTimeout(render, 1450); }
+  const dropE = dk ? animT('drop:' + dk, 420) : -1;
+  const promptE = acts.length && !pend ? animT('prompt:' + st.hn + ':' + st.ph + ':' + st.wl + ':' + (st.cl ? st.cl.t + '/' + st.cl.fr : st.tn) + ':' + tingSel, 300) : -1;
   const showPop = ld && !ended && !(st.ph === 'claim' && st.cl && st.cl.o[me] && !st.cl.r[me]) && (st.ph === 'claim' || now - fx.dAt < 1400);
   if (st.lg !== fx.lg) {
     const lg = st.lg || ''; let b = null;
@@ -1379,7 +1428,7 @@ function renderTable(app) {
     if (b) { b.who = lg.split(' ')[0]; fx.banner = b; fx.bAt = now; setTimeout(render, 1850); }
   }
   const showBanner = fx.banner && now - fx.bAt < 1800;
-  const bannerHTML = showBanner ? `<div class="banner ${fx.banner.k}"><span class="who">${esc(fx.banner.who)}</span><b>${fx.banner.t}</b>${fx.banner.fang ? `<span class="fang">放槍<small>${esc(fx.banner.fang)}</small></span>` : ''}</div>` : '';
+  const bannerHTML = showBanner ? `<div class="banner ${fx.banner.k}" style="animation-delay:-${now - fx.bAt}ms"><span class="who">${esc(fx.banner.who)}</span><b>${fx.banner.t}</b>${fx.banner.fang ? `<span class="fang">放槍<small>${esc(fx.banner.fang)}</small></span>` : ''}</div>` : '';
   // 擲骰子
   let diceHTML = '';
   if (st.ph === 'dice') {
@@ -1391,7 +1440,7 @@ function renderTable(app) {
     const n = st.md === 2 ? 2 : 3;
     const faces = st.dc || Array.from({ length: n }, (_, i) => [3, 5, 2][i]);
     diceHTML = `<div class="diceboard">
-      <div class="dice ${rolling ? 'rolling' : ''} ${st.dc ? '' : 'idle'}">${faces.map((v, i) => dieHTML(v, i)).join('')}</div>
+      <div class="dice ${rolling ? 'rolling' : ''} ${st.dc ? '' : 'idle'}" style="--dl:-${now - fx.diceAt}ms">${faces.map((v, i) => dieHTML(v, i)).join('')}</div>
       ${st.dc && !rolling ? `<div class="dicesum">${st.dc.join(' + ')} = <b>${st.dc.reduce((a, b) => a + b, 0)}</b></div>
         <div class="dicemsg">${st.df ? `${esc(S[st.dl].n)} 坐東當莊，換他擲骰開門` : '開門發牌…'}</div>`
         : st.dc ? '<div class="dicemsg">擲骰子中…</div>'
@@ -1408,12 +1457,12 @@ function renderTable(app) {
   <div class="board ${md === 2 ? 'two' : ''}">
     ${md === 4 ? hudHTML(st, seatAt.left, ended, 'hud-l', false, false, alarm(seatAt.left)) : ''}
     <div class="feltwrap">
-      <div class="felt">
+      <div class="felt ${dropE >= 0 ? 'dropping' : ''}" style="--dd:-${Math.max(0, dropE)}ms">
         <div class="compass">${cw}<div class="left">${st.wl}<small>剩餘張數</small></div></div>
         ${river('bottom')}${river('top')}${md === 4 ? river('left') + river('right') : ''}
         ${wall('top')}${md === 4 ? wall('left') + wall('right') : ''}
       </div>
-      ${showPop ? `<div class="pop">${T(ld[1])}</div>` : ''}
+      ${showPop ? `<div class="pop" style="animation-delay:-${Math.min(1000, now - fx.dAt)}ms">${T(ld[1])}</div>` : ''}
       ${bannerHTML}
       ${diceHTML}
       ${hudHTML(st, seatAt.top, ended, 'hud-t', false, false, alarm(seatAt.top))}
@@ -1422,7 +1471,7 @@ function renderTable(app) {
         <span>${roundInfo}</span><span class="lg">${esc(st.lg || '')}</span>
         <button class="btn small ghost" data-a="leave">${confirmLeave ? '確定離開？' : '離開'}</button>
       </div>
-      ${hint || acts.length ? `<div class="prompt ${acts.length && !pend ? 'live' : ''}">${hint ? `<div class="hint">${hint}</div>` : ''}${acts.length && !pend ? `<div class="btns">${acts.join('')}</div>` : ''}</div>` : ''}
+      ${hint || acts.length ? `<div class="prompt ${acts.length && !pend ? 'live' : ''} ${promptE >= 0 ? 'pin' : ''}" style="--pe:-${Math.max(0, promptE)}ms">${hint ? `<div class="hint">${hint}</div>` : ''}${acts.length && !pend ? `<div class="btns">${acts.join('')}</div>` : ''}</div>` : ''}
     </div>
     ${md === 4 ? hudHTML(st, seatAt.right, ended, 'hud-r', false, false, alarm(seatAt.right)) : ''}
   </div>
@@ -1431,7 +1480,7 @@ function renderTable(app) {
     <div class="dockrow">
       ${mx.m ? `<div class="mymelds">${meldsHTML(mx.m, !spectator || ended)}</div>` : ''}
       ${mx.f ? `<div class="myflowers">${dec(mx.f).map(t => T(t)).join('')}</div>` : ''}
-      <div class="hand">${handHTML}</div>
+      <div class="hand ${dealE >= 0 ? 'dealing' : ''} ${drawE >= 0 ? 'drawing' : ''}" style="--ae:-${Math.max(0, dealE)}ms;--ad:-${Math.max(0, drawE)}ms">${handHTML}</div>
     </div>
     <div class="statusbar">
       <span class="wind ${me === st.dl ? 'dl' : ''}">${WINDS[windIdx(st, me)]}</span>${me === st.dl ? `<span class="zhuang">莊</span>` : ''}
@@ -1444,6 +1493,7 @@ function renderTable(app) {
   </div>
   ${ended && !showBanner ? resultHTML(st) : ''}`;
   app.style.setProperty('--u', units.toFixed(2));
+  app.style.setProperty('--pp', '-' + (now % 1600) + 'ms');
   tick();
 }
 
@@ -1465,11 +1515,30 @@ function resultHTML(st) {
         ${r.dt ? `<span>莊家${st.sk ? `（連${st.sk}拉${st.sk}）` : ''}<span class="muted"> · 只算莊家那家</span></span><span class="n">${r.dt} 台</span>` : ''}
         <span class="tot">合計</span><span class="n tot">${r.tai} 台${r.dt ? ` + 莊 ${r.dt}` : ''}</span></div>`;
   }
-  const pays = `<div class="pays">${act.map(s => `<span>${esc(S[s].n)}</span>
+  // 準備：電腦、斷線的人、房主自己都算已準備
+  const rd = st.rd || [0, 0, 0, 0];
+  const isReady = s => !!(S[s].b || !S[s].o || rd[s] || s === st.hs || role === 'solo');
+  const nReady = act.filter(isReady).length, allReady = nReady === act.length;
+  const me = mySeat();
+  const waited = Date.now() - (st.ea || 0);
+  if (isHost && !allReady && waited < 20000) setTimeout(render, 20000 - waited + 50);
+  const pays = `<div class="pays">${act.map(s => `<span>${esc(S[s].n)}${s === me ? '（你）' : ''}</span>
      <span class="${r.pay[s] > 0 ? 'pos' : r.pay[s] < 0 ? 'neg' : ''}">${r.pay[s] > 0 ? '+' : ''}${r.pay[s]}</span>
-     <span class="muted">總 ${S[s].sc}</span>`).join('')}</div>`;
-  return `<div class="ov"><div class="card"><div class="cl">${body}</div><div class="cr">${pays}
-    <div class="row">${isHost ? `<button class="btn" data-a="next">下一局</button>` : `<span class="note">等房主開下一局</span>`}
+     <span class="muted">總 ${S[s].sc}</span>
+     <span class="rdy ${isReady(s) ? 'ok' : ''}">${s === st.hs && role !== 'solo' ? '房主' : isReady(s) ? '✓ 準備' : '準備中…'}</span>`).join('')}</div>`;
+  let ctrl;
+  if (isHost) {
+    ctrl = allReady || role === 'solo' ? `<button class="btn" data-a="next">下一局</button>`
+      : waited > 20000 ? `<button class="btn" data-a="next">不等了，直接開下一局</button>`
+      : `<button class="btn" disabled>等朋友準備（${nReady}/${act.length}）</button>`;
+  } else if (me >= 0 && !rd[me]) {
+    ctrl = `<button class="btn ready" data-a="ready" ${pending() ? 'disabled' : ''}>準備</button>`;
+  } else {
+    ctrl = `<span class="note">${me >= 0 ? '已準備，' : ''}等房主開下一局…</span>`;
+  }
+  const ra = animT('res' + st.hn, 900);
+  return `<div class="ov ${ra >= 0 ? 'enter' : ''}" style="--ae:-${Math.max(0, ra)}ms"><div class="card"><div class="cl">${body}</div><div class="cr">${pays}
+    <div class="row">${ctrl}
     <button class="btn ghost" data-a="hideres">看牌桌</button></div></div></div></div>`;
 }
 
@@ -1522,6 +1591,7 @@ document.addEventListener('click', e => {
     case 'rmbot': { const s = +b.dataset.s; if (G && G.ph === 'lobby' && G.seats[s] && G.seats[s].bot) { G.seats[s] = null; commit(); hostSync(); } return; }
     case 'start': if (G && G.ph === 'lobby' && G.active.every(s => G.seats[s])) { startHand(G); commit(); } return;
     case 'next': if (G && G.ph === 'end') { nextHand(G); resultHidden = false; commit(); } return;
+    case 'ready': return doAct({ k: 'y' });
     case 'hideres': resultHidden = true; return render();
     case 'showres': resultHidden = false; return render();
     case 'r': return doAct({ k: 'r' });
